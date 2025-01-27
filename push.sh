@@ -7,7 +7,7 @@ set -e
 git add .
 
 # Commit with timestamp
-git commit -m "Deployment attempt on $(date '+%Y-%m-%d %H:%M:%S')"
+git commit -m "Commit on $(date '+%Y-%m-%d %H:%M:%S')"
 
 # Push to specified branch
 git push origin main
