@@ -73,30 +73,7 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Default yaml file location and name
 YAML_FILE="$SCRIPT_DIR/docker_packages.yaml"
 
-# Check if docker_packages.yaml exists in the script directory
-if [ ! -f "$SCRIPT_DIR/docker_packages.yaml" ]; then
-    echo "Error: docker_packages.yaml not found in script directory ($SCRIPT_DIR)"
-    exit 1
-fi
-
-# Check if yq is installed
-if ! command -v yq &> /dev/null; then
-    echo "yq is not installed. Please install yq first."
-    echo "You can install it using: snap install yq"
-    exit 1
-fi
-
-echo "yq is installed, proceeding..."
-
-# Check if sudo requires password
-if sudo -n true 2>/dev/null; then
-    echo "Sudo access available without password"
-else
-    echo "Sudo requires password. Please run with sudo privileges"
-    exit 1
-fi
-
-# Parse remaining command line arguments
+# Parse command line arguments
 SKIP_CHECK=false
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -125,6 +102,23 @@ done
 # Check if specified YAML file exists
 if [ ! -f "$YAML_FILE" ]; then
     echo "Error: YAML file not found at: $YAML_FILE"
+    exit 1
+fi
+
+# Check if yq is installed
+if ! command -v yq &> /dev/null; then
+    echo "yq is not installed. Please install yq first."
+    echo "You can install it using: snap install yq"
+    exit 1
+fi
+
+echo "yq is installed, proceeding..."
+
+# Check if sudo requires password
+if sudo -n true 2>/dev/null; then
+    echo "Sudo access available without password"
+else
+    echo "Sudo requires password. Please run with sudo privileges"
     exit 1
 fi
 
